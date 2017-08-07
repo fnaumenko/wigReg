@@ -75,9 +75,9 @@ The run-time and sizes measuring was performed for wiggles from MACS (for the fi
 
 Two initial wig files from MACS have been checked: contained first chromosome (mm9) only, and for the whole genome.
 
-1.	Size measuring
+1. Size measuring
 
-<table>
+<table align="center">
   <tr>
 	<th>measure</th><th colspan="3">chrom 1</th><th colspan="3">all chroms</th>
   </tr>
@@ -98,7 +98,7 @@ Two initial wig files from MACS have been checked: contained first chromosome (m
   </tr>
 </table>
 
-2.	Time measuring
+2. Time measuring<br>
 Unfortunately generation bw-file from regulated wig for the whole genome leads to inexplicable wigToBigWig  error ‘There's more than one value for chr… base …’ (see f.e. this FAQ post1, FAQ post2), so this file was excluded from benchmarking.
 Since the most practical goals are to generate bigWigs,  we have measured the run time of chain 
 ```wigReg inFile.wig stdout | wigToBigWig stdin chrom.sizes outFile.bw```
