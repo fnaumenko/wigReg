@@ -100,7 +100,7 @@ Two initial wig files from MACS have been checked: contained first chromosome (m
 
 2.	Time measuring<br>
 Unfortunately generation bw-file from regulated wig for the whole genome leads to inexplicable wigToBigWig  error *‘There's more than one value for chr… base …’* (see f.e. [FAQ post1](http://seqanswers.com/forums/showthread.php?t=4870), [FAQ post2](http://seqanswers.com/forums/showthread.php?p=193135#post193135)), so this file was excluded from benchmarking.
-Since the most practical goals are to generate bigWigs,  we have measured the run time of chain 
+Since the most practical goals are to generate bigWigs,  we have measured the run time of chain<br>
 ```wigReg inFile.wig stdout | wigToBigWig stdin chrom.sizes outFile.bw```
 
    space, bps|1|5|10
