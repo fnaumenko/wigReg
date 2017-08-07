@@ -76,24 +76,39 @@ The run-time and sizes measuring was performed for wiggles from MACS (for the fi
 Two initial wig files from MACS have been checked: contained first chromosome (mm9) only, and for the whole genome.
 
 1.	Size measuring
-                        |	   chrom 1      | all chroms
-------------------------|-------------------|-----------------------		
-              space, bps|     1     5    10 |      1       5      10
-            size wig, Mb| 1 000   200   100 | 13 023   2 604   1 302
-size’s ratio wig/reg.wig|  11.9   2.9   1.7 |   10.6     2.7     1.6
-             size bw, Mb|   192    48    23 |  2 556     632     308
-  size’s ratio bw/reg.bw|   1.5   0.5   0.3 |   bigToBigWig error
-  
+
+<table>
+  <tr>
+	<th>measure</th><th colspan="3">chrom 1</th><th colspan="3">all chroms</th>
+  </tr>
+  <tr align="center">
+	<td align="left">space, bps</td><td>1</td><td>5</td><td>10</td><td>1</td><td>5</td><td>10</td>
+  </tr>
+  <tr>
+	<td>size wig, Mb</td><td>1 000</td><td>200</td><td>100</td><td>13 023</td><td>2 604</td><td>1 302</td>
+  </tr>
+  <tr align="center">
+	<td>size’s ratio wig/reg.wig</td><td>11.9</td><td>2.9</td><td>1.7</td><td>10.6</td><td>2.7</td><td>1.6</td>
+  </tr>
+  <tr align="center">
+	<td align="left">size bw, Mb</td><td>192</td><td>48</td><td>23</td><td>2 556</td><td>632</td><td>308</td>
+  </tr>
+  <tr align="center">
+	<td align="left">size’s ratio bw/reg.bw</td><td>1.5</td><td>0.5</td><td>0.3</td><td colspan="3">bigToBigWig error</td>
+  </tr>
+</table>
+
 2.	Time measuring
 Unfortunately generation bw-file from regulated wig for the whole genome leads to inexplicable wigToBigWig  error ‘There's more than one value for chr… base …’ (see f.e. this FAQ post1, FAQ post2), so this file was excluded from benchmarking.
-Since the most practical goals are to generate bigWigs,  we have measured the run time of chain
-wigReg inFile.wig stdout | wigToBigWig stdin chrom.sizes outFile.bw
+Since the most practical goals are to generate bigWigs,  we have measured the run time of chain 
+```wigReg inFile.wig stdout | wigToBigWig stdin chrom.sizes outFile.bw```
 
- 	space, bps	1	5	10
-wig->reg.wig|	by wigReg	0:10	0:03	0:01
-wig->bw	by wigToBigWig|	1:45	0:19	0:10
-wig->reg.bw	by wigReg\|wigToBigWig|	0:30	0:20	0:16
-time ratio wig->bw/wig->reg.bw|	3.5	1	0.6
+   space, bps|1|5|10
+----------------------------------|-------|-------|-------
+wig->reg.wig by wigReg|0:10|0:03|0:01
+wig->bw      by wigToBigWig|1:45|0:19|0:10
+wig->reg.bw  by wigReg\|wigToBigWig|0:30|0:20|0:16
+time ratio wig->bw/wig->reg.bw|3.5|1|0.6
 
 The sizes of regulated wiggle-files are definitely reduced. The most impressive effect is observed by single resolution.<br>
 But sizes of bw-files are not in such deterministic dependence. We even observe paradoxical results when smaller regulated files are compressed into bigger binary format.<br>
