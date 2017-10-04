@@ -1,7 +1,14 @@
 /*
- * wigRegulation
- * Copyright (C) 2015 Fedor Naumenko
-*/
+	bioCC regulates wig-files after MACS and PeakRanger.
+	
+	Copyright (C) 2017 Fedor Naumenko (fedor.naumenko@gmail.com)
+
+	This program is free software. It is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY;
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	See the	GNU General Public License for more details.
+ */
+
 #include "def.h"
 #include "common.h"
 #include "TxtFile.h"
@@ -30,17 +37,18 @@ const BYTE	Options::_GroupCount = oOPTION + 1;
 enum eOptProg	{ oPR, oMACS, oAUTO };
 const char* ProgVals [] = { "PR", "MACS", "AUTO" };
 
-//{ char, str, optOblig, valRequired, type, group, numVal, minVal, maxVal, strVal, descr }
+//	{ char,	str,	Signs,	type,	group,	defVal,	minVal,	maxVal,	strVal,	descr }
+// field 7: vUNDEF if value is prohibited
+// field 6: vUNDEF if no default value should be printed
 Options::Option Options::_Options [] = {
-	{ 'p', NULL,	 0,	true, tENUM,  oOPTION, float(oAUTO), 0, 3, (char*)ProgVals,
-		progDescr.c_str() },
-	{ 'f',"frag-len",0,	true, tINT,	oOPTION, 200, 50, 400, NULL, "length of fragment. Ignored for wiggle from MACS" },
-	{ 's',"space",	 0, true, tINT,	oOPTION, 10, 1, 100, NULL, "resolution: minimal span in bps from which raw tags will be saved.\nIgnored for wiggle from MACS" },
-	{ 't', "time",	 0,	false,tENUM,  oOPTION, FALSE, 0, 2, NULL, "output run time" },
-	{ 'h', "help",	 0,	false,tHELP, oOPTION, vUNDEF, 0, 0, NULL, "print usage information and quit" }
+	{ 'p', NULL,	 0,	tENUM,  oOPTION, float(oAUTO), 0, 3, (char*)ProgVals, progDescr.c_str() },
+	{ 'f',"frag-len",0,	tINT,	oOPTION, 200, 50, 400, NULL,
+	"length of fragment. Ignored for wiggle from MACS" },
+	{ 's',"space",	 0, tINT,	oOPTION, 10, 1, 100, NULL,
+	"resolution: minimal span in bps from which raw tags will be saved.\nIgnored for wiggle from MACS" },
+	{ 't',"time",	0,	tENUM,	oOPTION, FALSE, vUNDEF, 2, NULL, "print run time" },
+	{ 'h', "help",	0,	tHELP,	oOPTION,	vUNDEF, vUNDEF, 0, NULL, "print usage information and quit" }
 };
-
-// -z,--gzip	compress the output
 
 const BYTE	Options::_OptCount = oHELP + 1;
 const BYTE	Options::_UsageCount = 2;
@@ -57,27 +65,21 @@ ofstream outfile;				// file ostream duplicated cout; inizialised by file in cod
 
 int main(int argc, char* argv[])
 {
-	if( argc == 1 )	
-	{ Options::PrintUsage(false);	return 0; }		// output tip
-	short fileInd = Options::Tokenize(argc, argv, "files");
-	if( fileInd < 0 )				return 1;	// wrong otpion
-	// check if output file is setting
-	if( fileInd == argc-1 )
-		Err(Err::P_MISSED, StrEmpty, FileOut).Throw(false);
-	int ret = 0;	// main() return code
+	if (argc < 2)	return Options::PrintUsage(false);			// output tip
+	int fileInd = Options::Tokenize(argc, argv);
+	if( fileInd < 0 )	return 1;								// wrong otpion
 
-	Timer timer(Options::GetBVal(oTIME));
-	timer.Start();
-	try { 
-		WigReg wig(*(argv + fileInd), *(argv + fileInd + 1));
-	}
+	int ret = 0;	// main() return code
+	if( fileInd == argc-1 )		// check if output file is setting
+		Err(Err::P_MISSED, StrEmpty, FileOut).Throw(false);
+
+	Timer::Enabled = Options::GetBVal(oTIME);
+	Timer timer;
+	try { WigReg wig(*(argv + fileInd), *(argv + fileInd + 1));	}
 	catch(Err &e)				{ ret = 1;	cout << e.what() << EOL; }
 	catch(const exception &e)	{ ret = 1;	cout << e.what() << EOL; }
 	catch(...)					{ ret = 1;	cout << "Unregistered error\n"; }
 	timer.Stop(true);
-//#ifdef OS_Windows
-	//system("pause");
-//#endif
 	return ret;
 }
 
@@ -193,7 +195,7 @@ WigReg::WigReg(const char* inFileName, const char* outFileName) : _empty(true)
 
 	while( line = file.GetLine() )	{
 		if( firstLine )
-			if( line[0] == HASH )		// comment line: typical at PeakRenger wiggle
+			if( line[0] == '/' )		// comment line: typical at PeakRenger wiggle
 				SetProg(line, &prog);
 			else {						// definition line
 				CheckSpec(line, kyeTrack, file);
