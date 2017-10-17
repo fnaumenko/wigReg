@@ -66,7 +66,7 @@ Redirect output to standard  output. It allows to build **wigReg** into pipe-lin
 ```        wigReg inFile.wig stdout | wigToBigWig –clip stdin chrom.sizes outFile.bw```
 
 ### Options description
-Non-numeric option values are case insensitive.
+Enumerable option values are case insensitive.
 
 ```-p <PR|MACS|AUTO>```<br>
 Program what generates input wiggle. Lower case value is appropriate as well.<br>
