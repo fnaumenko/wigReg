@@ -1,5 +1,5 @@
 # wigReg
-**Wig**gle **Reg**ulator is fast, memory-undemanding software to regulate wig-files after [MACS](http://liulab.dfci.harvard.edu/MACS/00README.html) and [PeakRanger](http://ranger.sourceforge.net/manual1.18.html).<br>
+**Wig**gle **Reg**ulator is a fast, memory-undemanding software to regulate wig-files after [MACS](http://liulab.dfci.harvard.edu/MACS/00README.html) and [PeakRanger](http://ranger.sourceforge.net/manual1.18.html).<br>
 See [Problem statement](#problem-statement).
 
 The program runs on the command line under Linux and Windows, and can be used in pipe-line.
