@@ -1,5 +1,6 @@
 # wigReg
-**Wig**gle **Reg**ulator is fast, memory-undemanding software to regulate wig-files after [MACS](http://liulab.dfci.harvard.edu/MACS/00README.html) and [PeakRanger](http://ranger.sourceforge.net/manual1.18.html).
+**Wig**gle **Reg**ulator is fast, memory-undemanding software to regulate wig-files after [MACS](http://liulab.dfci.harvard.edu/MACS/00README.html) and [PeakRanger](http://ranger.sourceforge.net/manual1.18.html).<br>
+See [Problem statement](#problem-statement).
 
 The program runs on the command line under Linux and Windows, and can be used in pipe-line.
 
@@ -94,7 +95,7 @@ Moreover resolution of 1 is surplus for most practical purposes.<br>
 This option ignored for wiggles from MACS since their resolution defined by the program itself.<br>
 Default: 10
 
-##Problem statement
+## Problem statement
 Displaying alignment’s coverage is inseparable part of studying in ChIP-sequencing. 
 Though in practice the coverage is displaying via [bigWig](https://genome.ucsc.edu/goldenpath/help/bigWig.html) format, 
 it is made from [wiggle](https://genome.ucsc.edu/goldenpath/help/wiggle.html).<br>
