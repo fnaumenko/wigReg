@@ -24,14 +24,14 @@ const string Product::Descr = "Regulates wiggle format from MACS and PeakFanger"
 const string progTip = "program-source";
 const string progDescr = progTip + " generated input wiggle:\nPeakRanger, MACS or AUTOdetection";
 
-const string FileIn = "input.wig";
-const string FileOut = "output.wig";
-const string StdOut = "stdout";
+//const string FileIn = "input.wig";
+//const string FileOut = "output.wig";
+//const string StdOut = "stdout";
 
 /***** define Options enums and structures *****/
 
 enum eOptGroup	{ oOPTION };	// oOTHER should be the last 
-const char* Options::_OptGroups [] = { "Options" };
+const char* Options::_OptGroups [] = { NULL };
 const BYTE	Options::_GroupCount = oOPTION + 1;
 
 enum eOptProg	{ oPR, oMACS, oAUTO };
@@ -47,17 +47,15 @@ Options::Option Options::_Options [] = {
 	{ 'f',"frag-len",0,	tINT,	oOPTION, 200, 50, 400, NULL, "length of fragment.", ForMACS },
 	{ 's',"space",	 0, tINT,	oOPTION, 10, 1, 100, NULL,
 	"resolution: minimal span in bp from which intervals will be saved.\n", ForMACS },
-	{ 't', "time",	 0,	tENUM,	oOPTION,	FALSE,	vUNDEF, 2, NULL, "print run time", NULL },
-	{ 'h', "help",	 0,	tHELP,	oOPTION,	vUNDEF, vUNDEF, 0, NULL, "print usage information", NULL }
+	{ 't', "time",	 0,	tENUM,	oOPTION, FALSE,	vUNDEF, 2, NULL, "print run time", NULL },
+	{ 'h', "help",	 0,	tHELP,	oOPTION, vUNDEF, vUNDEF, 0, NULL, "print usage information", NULL }
 
 };
 
 const BYTE	Options::_OptCount = oHELP + 1;
-const BYTE	Options::_UsageCount = 2;
-
+const BYTE	Options::_UsageCount = 1;
 const Options::Usage Options::_Usages[] = {
-	{ vUNDEF, sBLANK + FileIn + sBLANK + FileOut},
-	{ vUNDEF, sBLANK + FileIn + sBLANK + StdOut	}
+	{ vUNDEF, "input.wig stdout|output.wig", true, NULL}
 };
 
 ofstream outfile;				// file ostream duplicated cout; inizialised by file in code
@@ -68,12 +66,12 @@ ofstream outfile;				// file ostream duplicated cout; inizialised by file in cod
 int main(int argc, char* argv[])
 {
 	if (argc < 2)	return Options::PrintUsage(false);			// output tip
-	int fileInd = Options::Tokenize(argc, argv);
+	int fileInd = Options::Tokenize(argc, argv, "input/output");
 	if( fileInd < 0 )	return 1;								// wrong otpion
 
 	int ret = 0;	// main() return code
 	if( fileInd == argc-1 )		// check if output file is setting
-		Err(Err::MISSED, NULL, FileOut).Throw(false);
+		Err(Err::MISSED, NULL, "output.wig").Throw(false);
 
 	Timer::Enabled = Options::GetBVal(oTIME);
 	Timer timer;
@@ -167,7 +165,7 @@ WigReg::WigReg(const char* inFileName, const char* outFileName) : _empty(true)
 		Err(Err::TF_EMPTY, inFileName, sRecords).Throw();
 
 	// set outstream
-	if( _stricmp(outFileName, StdOut.c_str()) ) {
+	if( _stricmp(outFileName, "stdout") ) {
 		_outFile.open (outFileName, ios_base::out | ios_base::trunc );
 		_initStream = cout.rdbuf(_outFile.rdbuf());
 	}
