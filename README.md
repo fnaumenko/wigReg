@@ -35,10 +35,9 @@ To be sure about **zlib** on your system, type ```whereis zlib```.
 
 ## Usage
 ```
-wigReg [options] input.wig output.wig
-wigReg [options] input.wig stdout
+wigReg [options] input.wig stdout|output.wig
 ```
-## Help
+### Help
 ```
 Options:
   -p <PR|MACS|AUTO>     program-source generated input wiggle:
