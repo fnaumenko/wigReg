@@ -111,7 +111,7 @@ Besides wiggle generation is inherent in peak-calling process and consumes appre
 
 PeakRanger generates wiggle independently from peak-calling process and much more faster (about 100 times). 
 This also allows the generation of wiggles for each strand separately.<br>
-But its issue is more serious: although each its data line has unique value, they all have initial span = 1. 
+But its issue is more serious: although each its interval has unique value, they all have initial span = 1. 
 Formally valid, those data are invalid in essence. 
 Firstly, they look strange in genome browser by zooming, as it shows in ![figure](https://github.com/fnaumenko/wigReg/tree/master/pict/MACS-PeakRanger-comparison.png). 
 Secondly, and more substantially, they cannot be used in treatment, like comparison etc.<br>
