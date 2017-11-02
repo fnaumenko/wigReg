@@ -160,7 +160,7 @@ void WigReg::CorrectDef(const char* line, const char* fName, BYTE space)
 
 WigReg::WigReg(const char* inFileName, const char* outFileName) : _empty(true)
 {
-	TabFile file(FS::CheckedFileName(inFileName), TxtFile::READ, 2, 2, NULL, '\0', true, true, false);
+	TabFile file(FS::CheckedFileName(inFileName), TxtFile::READ, 2, 2, '\0', NULL, true, true, false);
 	if( !file.Length() )
 		Err(Err::TF_EMPTY, inFileName, sRecords).Throw();
 
