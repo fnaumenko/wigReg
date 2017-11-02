@@ -28,9 +28,9 @@ Go to the desired directory and type commands:<br>
 ```cd wigReg-1.0```<br>
 ```make```
 
-If **zlib** is not installed on your system, a message will be displayed from the linker.<br>
-In that case you can compile the program without the ability to work with .gz files. 
-To do this, open *makefile* in any text editor, uncomment last macro in the second line, comment third line, save *makefile*, and try again ```make```.<br>
+If **zlib** is not installed on your system, a linker message will be displayed.<br>
+In that case you can compile the program without the ability to work with .gz files: 
+open *makefile* in any text editor, uncomment last macro in the second line, comment third line, save *makefile*, and try ```make``` again.<br>
 To be sure about **zlib** on your system, type ```whereis zlib```.
 
 ## Usage
